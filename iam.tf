@@ -142,7 +142,7 @@ data "aws_iam_policy_document" "lambda_api_permissions" {
             "secretsmanager:GetSecretValue",
             "secretsmanager:DescribeSecret"
         ]
-        resources = ["aws_secretsmanager_secret.db.arn]
+        resources = [aws_secretsmanager_secret.db.arn]
     }
 
     statement {
