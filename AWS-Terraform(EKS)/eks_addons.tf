@@ -6,14 +6,22 @@ resource "aws_eks_addon" "vpc_cni" {
 resource "aws_eks_addon" "coredns" {
     cluster_name = aws_eks_cluster.main.name
     addon_name = "coredns"
+
+    depends_on = [
+        aws_eks_node_group.general
+    ]
 }
 
 resource "aws_eks_addon" "kube_proxy" {
     cluster_name = aws_eks_cluster.main.name
-    addon_name = "kube_proxy"
+    addon_name = "kube-proxy"
 }
 
 resource "aws_eks_addon" "pod_identity_agent" {
-    cluster_nane = aws_eks_cluster.main.name
-    addon_name = "eks-pod-identity-agent"
+    cluster_name = aws_eks_cluster.main.name
+    addon_name = "pod-identity-agent"
+
+    depends_on = [
+        aws_eks_node_group.general
+    ]
 }
