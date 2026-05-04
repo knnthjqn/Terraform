@@ -51,9 +51,9 @@ resource "aws_eks_note_group" "general" {
         max_size = 4
     }
 
-update_config {
-    max_unavailable = 1
-}
+    update_config {
+        max_unavailable = 1
+    }
 
     depends_on = [
         aws_iam_role_policy_attachment.eks_worker_nodes,
