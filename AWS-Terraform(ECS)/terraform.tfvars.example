@@ -1,0 +1,8 @@
+project_name    = "three-tier-app"
+environment     = "prod"
+aws_region      = "ap-southeast-1"
+root_domain     = "test.com"
+app_domain      = "www.test.com"
+media_domain    = "media.test.com"
+alert_email     = "your@email.com"
+db_name         = "myappdb"
