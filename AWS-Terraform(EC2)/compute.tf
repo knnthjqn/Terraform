@@ -1,21 +1,22 @@
 resource "aws_launch_template" "web" {
-    name = "${var.project_name}-${var.environment}-web-lt"
-    image_id = data.aws_ami.al2023.id
-    instance_type = "t3.small"
+  name_prefix   = "${var.project_name}-${var.environment}-web"
+  image_id      = data.aws_ami.al2023.id
+  instance_type = "t3.small"
 
-    iam_instance_profile {
-        name = aws_iam_instance_profile.web.name
-    }
+  iam_instance_profile {
+    # Attach web instance profile
+    name = aws_iam_instance_profile.web.name
+  }
 
-    vpc_security_group_ids = [aws_security_group.web.id]
+  vpc_security_group_ids = [aws_security_group.web.id]
 
-    user_data = base64encode(<<-EOF
-        #!/bin/bash
-        dnf update -y
-        dnf install -y nginx
-        systemctl enable nginx
-        systemctl start nginx
-    EOF)
+  user_data = base64encode(<<-EOF
+    #!/bin/bash
+    dnf update -y
+    dnf install -y nginx
+    systemctl enable nginx
+    systemctl start nginx
+  EOF)
 }
 
 resource "aws_launch_template" "app" {
