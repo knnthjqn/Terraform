@@ -65,5 +65,15 @@ resource "aws_route_table_association" "public" {
 resource "aws_route_table_association" "private" {
     for_each = aws_subnet.private
     subnet_id = each.value.id
-    route_table_id = aws_route_table.private.id
+    route_table_id = aws_route_table.private[each.key].id
+}
+
+resource "aws_vpc_endpoint" "s3" {
+    vpc_id = aws_vpc.main.id
+    service_name = "com.amazonaws.${var.region}.s3"
+    vpc_endpoint_type = "Gateway"
+
+    route_table_ids = [
+        for route in aws_route_table.private : route.id
+    ]
 }
