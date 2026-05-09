@@ -4,22 +4,22 @@ resource "aws_sns_topic" "main" {
 }
 
 resource "aws_sns_topic_subscription" "main" {
-    name = "${var.project_name}-${var.environment}-sns-subscription"
+    topic_arn = aws_sns_topic.main.arn
     protocol = "email"
     endpoint = var.alerts_email
 }
 
 resource "aws_cloudwatch_metric_alarm" "web_high_cpu" {
-    name = "${var.project_name}-${var.environment}-web-alarm"
+    alamr_name = "${var.project_name}-${var.environment}-web-alarm"
     comparison_operator = "GreaterThanOrEqualToThreshold"
-    evaluation_periods = 1
-    metric_name = "AWS/EC2"
-    namespace = "Web High CPU Usage"
-    period = 30
+    evaluation_periods = 2
+    metric_name = "CPUUtilization"
+    namespace = "AWS/EC2"
+    period = 60
     statistic = "Average"
     threshold = 80
 
-    dimensions = {
+    dimensions {
         AutoScalingGroupName = aws_autoscaling_group.web.name
     }
 
@@ -28,16 +28,16 @@ resource "aws_cloudwatch_metric_alarm" "web_high_cpu" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "app_high_cpu" {
-    name = "${var.project_name}-${var.environment}-app-alarm"
+    alarm_name = "${var.project_name}-${var.environment}-app-alarm"
     comparison_operator = "GreaterThanOrEqualToThreshold"
-    evaluation_periods = 1
-    metric_name = "AWS/EC2"
-    namespace = "App High CPU Usage"
-    period = 30
+    evaluation_periods = 2
+    metric_name = "CPUUtilization"
+    namespace = "AWS/EC2"
+    period = 60
     statistic = "Average"
     threshold = 80
 
-    dimensions = {
+    dimensions {
         AutoScalingGroupName = aws_autoscaling_group.app.name
     }
 
@@ -46,19 +46,20 @@ resource "aws_cloudwatch_metric_alarm" "app_high_cpu" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "rds_high_cpu" {
-    name = "${var.project_name}-${var.environment}-rds-alarm"
+    alarm_name = "${var.project_name}-${var.environment}-rds-alarm"
     comparison_operator = "GreaterThanOrEqualToThreshold"
-    evaluation_periods = 1
-    metric_name = "AWS/RDS"
-    namespace = "RDS High CPU Usage"
-    period = 30
+    evaluation_periods = 2
+    metric_name = "CPUUtilization"
+    namespace = "AWS/RDS"
+    period = 60
     statistic = "Average"
     threshold = 80
 
-    dimensions = {
+    dimensions {
         DBInstanceIdentifier = aws_db_instance.main.identifier
     }
 
     alarm_actions = [aws_sns_topic.main.arn]
     ok_actions = [aws_sns_topic.main.arn]
 }
+
