@@ -9,12 +9,12 @@ resource "aws_launch_template" "web" {
 
     vpc_security_group_ids = [aws_security_group.web.id]
 
-    user_data = base64encode (<<-EOF
-    #!/bin/bash
-    dnf update -y
-    dnf install -y nginx
-    systemctl enabled nginx
-    systemctl start nginx
+    user_data = base64encode(<<-EOF
+        #!/bin/bash
+        dnf update -y
+        dnf install -y nginx
+        systemctl enable nginx
+        systemctl start nginx
     EOF)
 }
 
