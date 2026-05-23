@@ -12,7 +12,7 @@ The goal of this repository is to demonstrate the ability to build scalable, sec
 
 ---
 
-* Tech Stack *
+# Tech Stack 
 
 # Cloud Platform
 - AWS
