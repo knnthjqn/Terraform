@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "media" {
-    bucket = "${var.project_name}-media-bucket-${data.aws_caller_identity.current.id}
+    bucket = "${var.project_name}-media-bucket-${data.aws_caller_identity.current.id}"
 }
 
 resource "aws_s3_bucket_versioning" "media" {
