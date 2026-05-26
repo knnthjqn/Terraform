@@ -1,5 +1,5 @@
 resource "aws_launch_template" "web" {
-  name = "${var.project_name}-${var.environment}-web-"
+  name = "${var.project_name}-web-lt"
   image_id = data.aws_ami.al2023.id
   instance_type = var.web_instance_type
 
@@ -7,7 +7,9 @@ resource "aws_launch_template" "web" {
     name = aws_iam_instance_profile.web.name
   }
 
-  vpc_security_group_ids = [aws_security_group.web.id]
+  network_interfaces {
+    security_group = aws_security_group.web.id
+  }
 
   user_data = base64encode(<<-EOF
     #!/bin/bash
@@ -27,7 +29,9 @@ resource "aws_launch_template" "app" {
         name = aws_iam_instance_profile.app.id
     }
 
-    vpc_security_group_id = aws_security_group.app.id
+    network_interfaces {
+      security_group = aws_security_group.app.id
+    }
 
     user_data = base64encode(<<-EOF
         #!/bin/bash
