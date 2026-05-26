@@ -17,7 +17,7 @@ resource "aws_ssm_document" "deploy_app" {
         }
         mainSteps = [
             {
-                action: "aws:runShellScript"
+                action = "aws:runShellScript"
                 name = "DeployApplication"
                 inputs = {
                     runCommand = [
