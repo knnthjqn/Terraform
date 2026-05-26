@@ -16,4 +16,11 @@ locals {
         a = cidrsubnet(var.vpc_cidr, 8, 10)
         b = cidrsubnet(var.vpc_cidr, 8, 11)
     }
+
+    data_subnets = {
+        a = cidrsubnet(var.vpc_cidr, 8, 20)
+        b = cidrsubnet(var.vpc_cidr, 8, 21)
+    }
+
+    github_repository_full_name = "${var.github_owner}/${var.github_repo}"
 }
