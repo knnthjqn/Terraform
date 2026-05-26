@@ -31,7 +31,7 @@ resource "aws_s3_bucket_public_access_block" "media" {
 }
 
 resource "aws_s3_bucket" "deploy_artifacts" {
-    bucket = "${var.project_name}-${environment}-deploy-artifacts-${data.aws_caller_identity.current.id}
+    bucket = "${var.project_name}-${environment}-deploy-artifacts-${data.aws_caller_identity.current.id}"
 }
 
 resource "aws_s3_bucket_versioning" "deploy_artifacts" {
