@@ -98,3 +98,12 @@ resource "aws_db_proxy_target" "main" {
     db_proxy_name = aws_db_proxy.main.name
     target_group_name = aws_db_proxy_default_target_group.main.name
 }
+
+resource "aws_elasticache_serverless_cache" "main" {
+  # Redis cache used by the app tier
+  engine             = "redis"
+  name               = "${var.project_name}-${var.environment}-cache"
+  subnet_ids         = [for subnet in aws_subnet.private : subnet.id]
+  security_group_ids = [aws_security_group.cache.id]
+  kms_key_id         = aws_kms_key.main.arn
+}
