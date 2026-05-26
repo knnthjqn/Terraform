@@ -1,24 +1,22 @@
 resource "aws_launch_template" "web" {
-  name = "${var.project_name}-web-lt"
-  image_id = data.aws_ami.al2023.id
-  instance_type = var.web_instance_type
+    name = "${var.project_name}-web-lt"
+    image_id = data.aws_ami.al2023.id
+    instance_type = var.web_instance_type
 
-  iam_instance_profile {
-    name = aws_iam_instance_profile.web.name
-  }
+    iam_instance_profile {
+      name = aws_iam_instance_profile.web.name
+    }
 
-  network_interfaces {
-    security_group = aws_security_group.web.id
-  }
+    vpc_security_group_id = aws_security_group.web.id
 
-  user_data = base64encode(<<-EOF
-    #!/bin/bash
-    dnf update -y
-    dnf install -y nginx
-    systemctl enable nginx
-    systemctl start nginx
-  EOF
-  )
+    user_data = base64encode(<<-EOF
+      #!/bin/bash
+      dnf update -y
+      dnf install -y nginx
+      systemctl enable nginx
+      systemctl start nginx
+    EOF
+    )
 }
 
 resource "aws_launch_template" "app" {
@@ -30,16 +28,15 @@ resource "aws_launch_template" "app" {
         name = aws_iam_instance_profile.app.id
     }
 
-    network_interfaces {
-      security_group = aws_security_group.app.id
-    }
+    vpc_security_group_id = aws_security_group.app.id
 
     user_data = base64encode(<<-EOF
         #!/bin/bash
         dnf update -y
         dnf install -y python3 unzip awscli
         mkdir -p /opt/app
-    EOF)
+    EOF
+  )
 }
 
 resource "aws_autoscaling_group" "web" {
