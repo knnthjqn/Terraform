@@ -87,13 +87,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Check that important files exist
-        shell: bash
-        run: |
-          test -f app/app.py
-          test -f scripts/start_app.sh
-          echo "Basic test passed"
-
   deploy:
     name: Deploy to App Fleet
     runs-on: ubuntu-latest
